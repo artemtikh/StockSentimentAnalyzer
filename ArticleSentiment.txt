@@ -1,0 +1,106 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class SentimentAnalyzer {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the article text:");
+        
+        String articleText = scanner.nextLine().toLowerCase();
+
+        // List of positive and negative words
+        String[] goodWords = { "good", "positive", "excellent", "profit", 
+        "opportunity","Profit", "Growth", "Strong", "Increase", "Bullish",
+        "Opportunity", "Positive", "Upward", "Success", "Record",
+        "Dividend", "Earnings", "Portfolio", "Value", "Investment",
+        "Stocks", "Market", "Advantage", "Prosperity", "Gain",
+        "Rise", "High", "Win", "Benevolent", "Excellent",
+        "Favorable", "Promising", "Superior", "Advancing", "Steady",
+        "Fortunate", "Lucrative", "Prospective", "Innovate", "Rewarding",
+        "Thriving", "Appreciation", "Expansion", "Stronger", "Elevate",
+        "Opportune", "Enriching", "Prolific", "Booming", "Dominant",
+        "Resilient", "Promote", "Vibrant", "Optimistic", "Robust",
+        "Momentum", "Exciting", "Promote", "Economic", "Progressive",
+        "Prosperous", "Golden", "Resurgence", "Success", "Revitalize",
+        "Flourish", "Emerge", "Outstanding", "Benevolent", "Inspiring",
+        "Triumph", "Excellence", "Boom", "Fortune", "Confidence",
+        "Uplift", "Satisfactory", "Catalyst", "Leading", "Rejuvenate",
+        "Vibrancy", "Dominant", "Advancing", "Energize", "Elevate",
+        "Innovative", "Motivate", "Positive", "Strong",
+        "Thrive", "Victory", "Vigorous", "Wealth", "Zeal", "Zest",
+        "Brisk", "Buoyant", "Conquer", "Dynamic", "Growth", "Flourish",
+        "Prosperity", "Resilient", "Revive", "Triumph", "Winning",
+        "Upbeat", "Elevate", "Momentum", "Vibrant", "Energize", "optimistic","launches", "stability", "successfully", "ability", "adapt", "adapting", "buy", "buying", "massive"
+        };
+        
+        String[] badWords = {"Loss", "Decline", "Downturn", "Bearish", "Risk",
+        "Uncertain", "Volatility", "Weakness", "Downside", "Negative",
+        "Trouble", "Concern", "Doubt", "Struggle", "Selloff",
+        "Unfavorable", "Challenging", "Underperform", "Underwhelm", "Declining",
+        "Depressed", "Unstable", "Crisis", "Warning", "Disappointing",
+        "Erosion", "Falling", "Crash", "Reduction", "Slump",
+        "Suffer", "Fear", "Uncertainty", "Turbulence", "Sluggish",
+        "Bear", "Cautious", "Deficit", "Danger", "Worry","Worried",
+        "Lose", "Unpredictable", "Adverse", "Pessimistic", "Volatile",
+        "Despair", "Insecure", "Decline", "Gloomy", "Collapse",
+        "Dip", "Recession", "Downfall", "Regress", "Devaluation",
+        "Disarray", "Inferior", "Misfortune", "Disruption", "Plunge",
+        "Dump", "Downsize", "Stagnant", "Distress", "Down",
+        "Downward", "Inadequate", "Dismal", "Deficiency", "Deflation",
+        "Regress", "Shrink", "Stumble", "Strain", "Adversity",
+        "Desperation", "Lag", "Misery", "Halt", "Low",
+        "Stall", "Displeasure", "Dissatisfy", "Weak", "Shaky",
+        "Disheartening", "Downtime", "Blunder", "Disarray", "Falter",
+        "Flaw", "Impair", "Sour", "Strain", "Turmoil",
+        "Setback", "Downbeat", "Dampen", "Diminish", "Deficit",
+        "scrutinized", "uncertainties", "monitoring"};
+
+        int goodCount = countWords(articleText, goodWords);
+        int badCount = countWords(articleText, badWords);
+        
+        List<String> foundGoodWords = getFoundWords(articleText, goodWords);
+        List<String> foundBadWords = getFoundWords(articleText, badWords);
+        
+        System.out.println("**** Sentiment Analysis ****");
+        System.out.println("Bullish Buzzwords count: " + goodCount);
+        System.out.println("Bearish Buzzwords count: " + badCount);
+        System.out.println("Found Bullish Buzzwords: " + foundGoodWords);
+        System.out.println("Found Bearish Buzzwords: " + foundBadWords);
+
+        // Determine overall sentiment
+        String sentiment = "Neutral";
+        if (goodCount - badCount > 3) {
+            sentiment = "Bullish";
+        } else if (badCount - goodCount > 3) {
+            sentiment = "Bearish";
+        }
+
+        System.out.println("Overall Sentiment: " + sentiment);
+
+        scanner.close();
+    }
+
+    static int countWords(String text, String[] words) {
+        int count = 0;
+        for (String word : words) {
+            // Use case-insensitive search by converting both text and word to lowercase
+            if (text.toLowerCase().contains(word.toLowerCase())) {
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    static List<String> getFoundWords(String text, String[] words) {
+        List<String> foundWords = new ArrayList<>();
+        for (String word : words) {
+            // Use case-insensitive search by converting both text and word to lowercase
+            if (text.toLowerCase().contains(word.toLowerCase())) {
+                foundWords.add(word);
+            }
+        }
+        return foundWords;
+    }
+}
